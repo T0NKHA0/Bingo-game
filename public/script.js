@@ -5,6 +5,7 @@ let markedNumbers = [];
 const boardSize = 5;
 let drawnHistory = [];
 let currentNumber = null; // ตัวแปรเก็บหมายเลขที่ถูกสุ่มล่าสุด
+let playerName = ''; // เก็บชื่อผู้เล่น
 
 function generateBingoBoard() {
   const bingoBoardDiv = document.getElementById("bingo-board");
@@ -84,17 +85,23 @@ function checkWin() {
 }
 
 document.getElementById("start-game").addEventListener("click", () => {
-  const playerName = document.getElementById("player-name").value.trim();
+  playerName = document.getElementById("player-name").value.trim();
 
   if (!playerName) {
     alert("Please enter your name to start the game.");
     return;
   }
 
-  generateBingoBoard();
   socket.emit("joinGame", { playerName });
+  generateBingoBoard();
   document.getElementById("start-game").disabled = true;
-  document.getElementById("draw-number").disabled = false;
+
+  // ตรวจสอบว่าผู้เล่นที่มีชื่อ 6529011020 เท่านั้นที่สามารถกด Draw Number
+  if (playerName === "6529011020") {
+    document.getElementById("draw-number").disabled = false;
+  } else {
+    document.getElementById("draw-number").disabled = true;
+  }
 });
 
 document.getElementById("draw-number").addEventListener("click", () => {
