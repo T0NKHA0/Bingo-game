@@ -1,0 +1,64 @@
+body {
+  font-family: Arial, sans-serif;
+  text-align: center;
+}
+
+#bingo-board {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 10px;
+  justify-items: center;
+  margin: 20px auto;
+  max-width: 300px;
+}
+
+.bingo-cell {
+  width: 50px;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #ccc;
+  cursor: pointer;
+  font-weight: bold;
+  color: black;
+}
+
+.bingo-cell.marked {
+  background-color: #4caf50;
+  color: white;
+  font-weight: bold;
+}
+
+.bingo-cell.highlighted {
+  color: red;
+}
+
+button {
+  margin: 10px;
+  padding: 10px 20px;
+  font-size: 16px;
+  background-color: white;
+  transition: background-color 0.3s;
+}
+
+#player-name {
+  margin: 10px;
+  padding: 10px;
+  font-size: 16px;
+  width: 200px;
+}
+
+#winner {
+  margin-top: 20px;
+  font-size: 18px;
+  font-weight: bold;
+  color: #d9534f;
+}
+
+#drawn-history {
+  margin-top: 20px;
+  font-size: 16px;
+  color: #555;
+}
+

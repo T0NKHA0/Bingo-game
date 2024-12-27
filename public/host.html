@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Host Panel</title>
+  <script src="/socket.io/socket.io.js"></script>
+  <script>
+    const socket = io();
+
+    function drawNumber() {
+      socket.emit("drawNumber");
+    }
+
+    socket.on("newNumber", (number) => {
+      const history = document.getElementById("history");
+      history.textContent += ` ${number}`;
+    });
+
+    socket.on("updatePlayers", (players) => {
+      const playerList = document.getElementById("players");
+      playerList.innerHTML = players.map((p) => `<li>${p.name}</li>`).join("");
+    });
+
+    socket.on("announceWinner", (winnerName) => {
+      alert(`Winner: ${winnerName}`);
+    });
+  </script>
+</head>
+<body>
+  <h1>Host Panel</h1>
+  <button onclick="drawNumber()">Draw Number</button>
+  <h2>Players:</h2>
+  <ul id="players"></ul>
+  <h2>Drawn Numbers:</h2>
+  <div id="history"></div>
+</body>
+</html>

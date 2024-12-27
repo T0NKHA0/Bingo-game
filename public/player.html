@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Player Panel</title>
+  <link rel="stylesheet" href="styles.css">
+  <script src="/socket.io/socket.io.js"></script>
+  <script>
+    const socket = io();
+    let playerId;
+
+    function joinGame() {
+      const playerName = prompt("Enter your name:");
+      if (playerName) {
+        socket.emit("joinGame", playerName);
+        playerId = socket.id;
+        document.getElementById("start-game").disabled = true;
+      }
+    }
+
+    socket.on("newNumber", (number) => {
+      const drawnNumber = document.getElementById("drawn-number");
+      drawnNumber.textContent = `Drawn Number: ${number}`;
+    });
+
+    socket.on("announceWinner", (winnerName) => {
+      alert(`Winner: ${winnerName}`);
+    });
+
+    function checkWin() {
+      // Add logic to verify Bingo board here
+      socket.emit("playerWin", playerId);
+    }
+  </script>
+</head>
+<body>
+  <h1>Player Panel</h1>
+  <button id="start-game" onclick="joinGame()">Join Game</button>
+  <div id="bingo-board"></div>
+  <div id="drawn-number"></div>
+  <button onclick="checkWin()">Claim Bingo</button>
+</body>
+</html>
